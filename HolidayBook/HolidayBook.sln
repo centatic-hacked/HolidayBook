@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HolidayBook", "HolidayBook.csproj", "{33594A56-AA1D-49D4-BB62-3E38161E79B3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Model", "..\Model\Model.csproj", "{607BB206-0594-4489-81C4-1F06EF86D8E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33594A56-AA1D-49D4-BB62-3E38161E79B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33594A56-AA1D-49D4-BB62-3E38161E79B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33594A56-AA1D-49D4-BB62-3E38161E79B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33594A56-AA1D-49D4-BB62-3E38161E79B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{607BB206-0594-4489-81C4-1F06EF86D8E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{607BB206-0594-4489-81C4-1F06EF86D8E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{607BB206-0594-4489-81C4-1F06EF86D8E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{607BB206-0594-4489-81C4-1F06EF86D8E1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {94C1B94A-EE16-41A6-8D8F-CC42A86CA786}
+	EndGlobalSection
+EndGlobal
