@@ -4,12 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HolidayBook"
-        xmlns:date="clr-namespace:HolidayBook.Overview"
         Title="MainWindow" WindowStyle="None"  Background="White"
         WindowState="Maximized">
-    <Window.Resources>
-        <date:DatesConverter x:Key="conv"/>
-    </Window.Resources>
     <Grid Background="#003b95">
         <Grid.RowDefinitions>
             <RowDefinition Height="90"/>
@@ -72,14 +68,9 @@
                 <TextBlock Name="dreamTtl1" Text="Compare and book flights with ease" FontFamily="Abadi" FontSize="30" FontWeight="Bold" Margin="0,30,0,0" ></TextBlock>
                 <TextBlock Name="dreamTtl2" Text="Discover your next dream destination" FontFamily="Abadi" FontSize="16" Margin="0,5,0,0" ></TextBlock>
                 <WrapPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,5,0,0">
-                    <RadioButton GroupName="FlightType" Content="Round-Trip" IsChecked="True" Margin="0,5,20,0"/>
-                    <RadioButton GroupName="FlightType" Content="One-way" Background="White" Margin="0,5,20,0"/>
-                    <ComboBox Name="Class" Background="#f5f5f5" Margin="0,2,20,0" BorderThickness="0">
-                        <ComboBoxItem IsSelected="True">Economy</ComboBoxItem>
-                        <ComboBoxItem>Premium economy</ComboBoxItem>
-                        <ComboBoxItem>Business</ComboBoxItem>
-                        <ComboBoxItem>First class</ComboBoxItem>
-                    </ComboBox>
+                    <RadioButton Name="AlsoBack" GroupName="FlightType" Content="Round-Trip" IsChecked="True" Margin="0,5,20,0" Command="{Binding FlightBack}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+                    <RadioButton Name="OneWay" GroupName="FlightType" Content="One-way" Background="White" Margin="0,5,20,0" Command="{Binding FlightBack}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+                    <ComboBox Name="Class" Background="#eeeeee" SelectedItem="{Binding Class, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,2,20,0" BorderThickness="0" ItemsSource="{Binding Classes,Mode=OneWay}"/>
                     <Button Name="Travellers" Content="{Binding Travellerscontent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             Background="#f5f5f5" BorderThickness="0" Margin="0,0,20,0" Command="{Binding showPopUp}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" ></Button>
                     <Popup Name="popupTraveller" PlacementTarget="{Binding ElementName=Travellers}" 
@@ -249,7 +240,7 @@
                 </Border>
                 <WrapPanel Margin="0,15,0,0" Orientation="Horizontal">
                     <Border CornerRadius="3" BorderThickness="0.8" Width="15" Height="15" BorderBrush="Black">
-                        <CheckBox Name="DirectFlights" Content="Direct flights only" BorderThickness="0"/>
+                        <CheckBox Name="DirectFlights" Command="{Binding DirectFlight}" Content="Direct flights only" BorderThickness="0"/>
                     </Border>
                     <TextBlock Margin="5,0,0,0" Text="Direct flights only"></TextBlock>
                 </WrapPanel>

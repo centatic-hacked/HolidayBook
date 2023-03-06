@@ -11,6 +11,7 @@ using System.Windows;
 using HolidayBook.ViewModels;
 using System.Windows.Media.Animation;
 using Model.Infrastructure;
+using HolidayBook.Overview.Classes;
 
 namespace HolidayBook.Overview
 {
@@ -84,6 +85,7 @@ namespace HolidayBook.Overview
                 {
                     MW.childrenCare.Children.Remove(i);
                 }
+                FlightBookData.travellers.Remove("childrenBtn1");
                 MW.childrenCare.Height -= 140;
             }
             else if (oldAmount > newAmount)
@@ -94,6 +96,7 @@ namespace HolidayBook.Overview
                     {
                         ListBox delIt = (ListBox)i;
                         delIt.Items.RemoveAt(delIt.Items.Count - 1);
+                        FlightBookData.travellers.Remove($"childrenBtn{delIt.Items.Count - 1}");
                     }
                 }
                 if (newAmount == 1) MW.childrenCare.Height -= 140;
@@ -112,12 +115,16 @@ namespace HolidayBook.Overview
             Button btn = new Button();
             btn.Name = $"childrenBtn{number}";
             btn.Content = "Select age at time of flying";
+            FlightBookData.travellers.Add(btn.Name, default);
             Popup popup = new Popup();
             popup.Name = $"childrenPopup{number}";
             popup.IsEnabled = true;
             popup.LostFocus += (s, e) => popup.IsOpen = false;
             popup.StaysOpen = false;
-            btn.Click += (s, e) => popup.IsOpen = true;
+            btn.Click += (s, e) =>
+            {
+                popup.IsOpen = true;
+            };
 
             Binding binding = new Binding
             {
@@ -132,6 +139,7 @@ namespace HolidayBook.Overview
             {
                 TextBlock tb = (TextBlock)lb.SelectedItem;
                 btn.Content = tb.Text;
+                FlightBookData.travellers[btn.Name] = (string)btn.Content;
             };
             for (int i = 0; i <= 17; i++)
             {
@@ -374,11 +382,13 @@ namespace HolidayBook.Overview
             if (checkBox.Name.StartsWith("dep"))
             {
                 MW.txtDepartureAirport.Content = airporticao + " " + airportname;
+                FlightBookData.startAirport = airporticao;
                 MW.txtDepartureAirport.Foreground = Brushes.Black;
             }
             else if (checkBox.Name.StartsWith("arr"))
             {
                 MW.txtArrivalAirport.Content = airporticao + " " + airportname;
+                FlightBookData.endAirport = airporticao;
                 MW.txtArrivalAirport.Foreground = Brushes.Black;
             }
         }

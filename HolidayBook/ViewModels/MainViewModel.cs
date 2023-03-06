@@ -16,6 +16,7 @@ using System.Collections;
 using System.Windows.Media.Media3D;
 using System.Globalization;
 using System.Collections.ObjectModel;
+using HolidayBook.Overview.Classes;
 
 namespace HolidayBook.ViewModels
 {
@@ -227,7 +228,8 @@ namespace HolidayBook.ViewModels
         public DateTime Dateend
         {
             get { return dateend; }
-            set { 
+            set
+            {
                 dateend = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Dateend)));
             }
@@ -238,7 +240,8 @@ namespace HolidayBook.ViewModels
         public DateTime Datestart2
         {
             get { return datestart2; }
-            set { 
+            set
+            {
                 datestart2 = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Datestart2)));
             }
@@ -251,11 +254,13 @@ namespace HolidayBook.ViewModels
         public DateTime DpDate
         {
             get { return dpDate; }
-            set {
-                if(dpDate < value)
+            set
+            {
+                if (dpDate < value)
                 {
 
-                } else 
+                }
+                else
                 {
                     DateTime start = DateCalculator.newDisplayDate(DpDate2);
                     Dateend = Dateend.AddMonths(-1);
@@ -274,7 +279,7 @@ namespace HolidayBook.ViewModels
             get { return dpDate2; }
             set
             {
-                if(dpDate2 > value)
+                if (dpDate2 > value)
                 {
 
                 }
@@ -289,6 +294,25 @@ namespace HolidayBook.ViewModels
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DpDate2)));
             }
         }
+
+        private string @class;
+
+        public string Class 
+        {
+            get {
+                return @class; 
+            }
+            set { 
+                @class = value;
+                FlightBookData.@class = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Class)));
+            }
+        }
+
+        public ObservableCollection<string> Classes { get; private set; } = new ObservableCollection<string>{ "Economy", "Premium economy", "Business", "First class" };
+
+        public static bool OneWay { get; private set; }
+
 
         public HolidayBookContext Database { get; private set; } = default!;
 
@@ -305,7 +329,7 @@ namespace HolidayBook.ViewModels
                 FlightOverview.createDB();
                 db.Seed();
             }
-
+            Class = "Economy";
             Database = db;
             addAdult = new RelayCommand(() => Adults++);
             removeAdult = new RelayCommand(() => Adults--);
@@ -328,8 +352,16 @@ namespace HolidayBook.ViewModels
                         break;
                 }
             });
-            removeChildren = new RelayCommand(() => Children--);
-            addChildren = new RelayCommand(() => Children++);
+            removeChildren = new RelayCommand(() =>
+            {
+                Children--;
+                FlightBookData.adults--;
+            });
+            addChildren = new RelayCommand(() =>
+            {
+                Children++;
+                FlightBookData.adults++;
+            });
             checkTravellers = new RelayCommand(() =>
             {
                 WPFRuntimeElements wpf = new WPFRuntimeElements(MW, Database);
@@ -355,6 +387,32 @@ namespace HolidayBook.ViewModels
                 Button btn = (Button)sender;
                 btn.BorderThickness = new Thickness(1.5);
             });
+            FlightBack = new RelayCommand((object sender) =>
+            {
+                RadioButton rb = (RadioButton) sender;
+                if(rb.Name == "AlsoBack") {
+                    OneWay = false;
+                    MW.calendar.SelectionMode = CalendarSelectionMode.MultipleRange;
+                    MW.calendar2.SelectionMode = CalendarSelectionMode.MultipleRange;
+                    MW.calendar2.SelectedDates.Clear();
+                    MW.calendar.SelectedDates.Clear();
+                } else
+                {
+                    OneWay = true;
+                    MW.calendar.SelectionMode = CalendarSelectionMode.SingleDate;
+                    MW.calendar2.SelectionMode = CalendarSelectionMode.SingleDate;
+                    MW.calendar2.SelectedDates.Clear();
+                    MW.calendar.SelectedDates.Clear();
+                }
+            });
+            DirectFlight = new RelayCommand(() =>
+            {
+                FlightBookData.nonStop = MW.DirectFlights.IsChecked.Value;
+            });
+            ButtonChecker = new RelayCommand(() =>
+            {
+
+            });
         }
 
         public static MainWindow MW { get; private set; } = default!;
@@ -377,5 +435,10 @@ namespace HolidayBook.ViewModels
 
         public ICommand RadioButtons { get; }
 
+        public ICommand FlightBack { get; }
+
+        public ICommand DirectFlight { get; }
+
+        public ICommand ButtonChecker { get; }
     }
 }
