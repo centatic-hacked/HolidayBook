@@ -141,7 +141,7 @@ namespace HolidayBook.Overview
                 btn.Content = tb.Text;
                 FlightBookData.travellers[btn.Name] = (string)btn.Content;
             };
-            for (int i = 0; i <= 17; i++)
+            for (int i = 0; i < 12; i++)
             {
                 TextBlock tb = new TextBlock();
                 tb.Text = $"{i}";

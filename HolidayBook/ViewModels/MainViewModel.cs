@@ -17,6 +17,9 @@ using System.Windows.Media.Media3D;
 using System.Globalization;
 using System.Collections.ObjectModel;
 using HolidayBook.Overview.Classes;
+using Bogus.Bson;
+using System.Runtime.ConstrainedExecution;
+using System.Windows.Media;
 
 namespace HolidayBook.ViewModels
 {
@@ -297,24 +300,61 @@ namespace HolidayBook.ViewModels
 
         private string @class;
 
-        public string Class 
+        public string Class
         {
-            get {
-                return @class; 
+            get
+            {
+                return @class;
             }
-            set { 
+            set
+            {
                 @class = value;
                 FlightBookData.@class = value;
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Class)));
             }
         }
 
-        public ObservableCollection<string> Classes { get; private set; } = new ObservableCollection<string>{ "Economy", "Premium economy", "Business", "First class" };
+        private string showResults = "0 Ergebnisse werden angezeigt";
+
+        public string ShowResults
+        {
+            get { return showResults; }
+            set { 
+                showResults = $"{value} Ergebnisse werden angezeigt";
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowResults)));
+            }
+        }
+
+        private string minimalPriceAll = "From €0";
+
+        public string MinimalPriceAll
+        {
+            get { return minimalPriceAll; }
+            set { 
+                minimalPriceAll = $"From €{PR.LowestPrice}";
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MinimalPriceAll)));
+            }
+        }
+
+        private string minimalPriceMax1 = "From €0";
+
+        public  string MinimalPriceMax1
+        {
+            get { return minimalPriceMax1; }
+            set { 
+                minimalPriceMax1 = $"From €{PR.OneLowestPrice}";
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MinimalPriceMax1)));
+            }
+        }
+
+
+        public ObservableCollection<string> Classes { get; private set; } = new ObservableCollection<string> { "Economy", "Premium economy", "Business", "First class" };
 
         public static bool OneWay { get; private set; }
 
 
         public HolidayBookContext Database { get; private set; } = default!;
+
 
         public MainViewModel(MainWindow mw)
         {
@@ -389,14 +429,16 @@ namespace HolidayBook.ViewModels
             });
             FlightBack = new RelayCommand((object sender) =>
             {
-                RadioButton rb = (RadioButton) sender;
-                if(rb.Name == "AlsoBack") {
+                RadioButton rb = (RadioButton)sender;
+                if (rb.Name == "AlsoBack")
+                {
                     OneWay = false;
                     MW.calendar.SelectionMode = CalendarSelectionMode.MultipleRange;
                     MW.calendar2.SelectionMode = CalendarSelectionMode.MultipleRange;
                     MW.calendar2.SelectedDates.Clear();
                     MW.calendar.SelectedDates.Clear();
-                } else
+                }
+                else
                 {
                     OneWay = true;
                     MW.calendar.SelectionMode = CalendarSelectionMode.SingleDate;
@@ -409,11 +451,107 @@ namespace HolidayBook.ViewModels
             {
                 FlightBookData.nonStop = MW.DirectFlights.IsChecked.Value;
             });
-            ButtonChecker = new RelayCommand(() =>
+            ButtonChecker = new RelayCommand(async () =>
             {
-
+                bool execute = true;
+                foreach (string keys in FlightBookData.travellers.Keys)
+                {
+                    string? value = FlightBookData.travellers[keys];
+                    if (value == null || FlightBookData.startAirport == default || FlightBookData.endAirport == default || FlightBookData.depDate == default)
+                    {
+                        execute = false;
+                    }
+                    else if (int.Parse(value) <= 2)
+                    {
+                        FlightBookData.infants++;
+                    }
+                    else if (int.Parse(value) < 12)
+                    {
+                        FlightBookData.children++;
+                    }
+                }
+                switch(FlightBookData.@class)
+                {
+                    case "Economy":
+                        FlightBookData.@class = "ECONOMY";
+                        break;
+                    case "Premium economy":
+                        FlightBookData.@class = "PREMIUM_ECONOMY";
+                        break;
+                    case "Business":
+                        FlightBookData.@class = FlightBookData.@class.ToUpper();
+                        break;
+                    case "First class":
+                        FlightBookData.@class = FlightBookData.@class.Substring(0, FlightBookData.@class.IndexOf(" ")).ToUpper();
+                        break;
+                }
+                if (execute == true)
+                {
+                   List<FlightOfferDetails> ls = await FlightOverview.FlightData(Database, FlightBookData.startAirport, FlightBookData.endAirport, FlightBookData.depDate, FlightBookData.retDate,
+                        FlightBookData.adults, FlightBookData.children, FlightBookData.infants, FlightBookData.@class, FlightBookData.includeAir, FlightBookData.excludeAir,
+                        FlightBookData.nonStop, FlightBookData.currency, FlightBookData.maxPrice);
+                    ShowResults = $"{ls.Count()}";
+                    ShowResultsCount = ls.Count();
+                    ShowResultsOfOneStopCount = ls.Where(flights => flights.Arr_Stops <= 1 && flights.Dep_Stops <= 1).Count();
+                    Database.AddFlights(FlightOverview.addToDb(ls, Database));
+                    PR = new PreparedDataFilter(Database, this);
+                }
+            });
+            ArrOrDep = new RelayCommand((object sender) =>
+            {
+                Button btn = (Button)sender;
+                if(btn.Name == "outbound")
+                {
+                    btn.Foreground = (Brush)new BrushConverter().ConvertFrom("#006ce4");
+                    MW.arrBor.Background = (Brush)new BrushConverter().ConvertFrom("#006ce4");
+                    MW.arrBor.Height = 2;
+                    MW.@return.Foreground = System.Windows.Media.Brushes.Black;
+                    MW.depBor.Height = 1;
+                    MW.depBor.Background = (Brush)new BrushConverter().ConvertFrom("#e7e7e7");
+                } else
+                {
+                    btn.Foreground = (Brush)new BrushConverter().ConvertFrom("#006ce4");
+                    MW.depBor.Height = 2;
+                    MW.depBor.Background = (Brush)new BrushConverter().ConvertFrom("#006ce4");
+                    MW.outbound.Foreground = System.Windows.Media.Brushes.Black;
+                    MW.arrBor.Background = (Brush)new BrushConverter().ConvertFrom("#e7e7e7");
+                    MW.arrBor.Height = 1;
+                }
             });
         }
+        private int showResultsCount = 0;
+
+        public int ShowResultsCount
+        {
+            get { return showResultsCount; }
+            set { 
+                showResultsCount = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowResultsCount)));
+            }
+        }
+        private int showResultsOfOneStopCount = 0;
+
+        public int ShowResultsOfOneStopCount
+        {
+            get { return showResultsOfOneStopCount; }
+            set { 
+                showResultsOfOneStopCount = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowResultsOfOneStopCount)));
+            }
+        }
+        private List<ExcludeAirlinesList> airlinesList = default!;
+
+        public List<ExcludeAirlinesList> AirlinesList
+        {
+            get { return airlinesList; }
+            set { 
+                airlinesList = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(AirlinesList)));
+            }
+        }
+
+        public static PreparedDataFilter PR { get; set; } = default!;
+
 
         public static MainWindow MW { get; private set; } = default!;
 
@@ -440,5 +578,7 @@ namespace HolidayBook.ViewModels
         public ICommand DirectFlight { get; }
 
         public ICommand ButtonChecker { get; }
+
+        public ICommand ArrOrDep { get; }
     }
 }

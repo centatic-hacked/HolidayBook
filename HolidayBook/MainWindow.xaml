@@ -6,122 +6,97 @@
         xmlns:local="clr-namespace:HolidayBook"
         Title="MainWindow" WindowStyle="None"  Background="White"
         WindowState="Maximized">
-    <Grid Background="#003b95">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="90"/>
-            <RowDefinition Height="60" />
-            <RowDefinition Height="260" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <WrapPanel Grid.Row="0" HorizontalAlignment="Stretch" Background="#003b95">
-            <Label Name="Label" Background="#003b95" Foreground="#ffc300"  VerticalAlignment="Center" HorizontalAlignment="Left" Content="Holiday Book"
+    <ScrollViewer>
+        <Grid Background="#003b95">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="60" />
+                <RowDefinition Height="260" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <WrapPanel Grid.Row="0" HorizontalAlignment="Stretch" Background="#003b95">
+                <Label Name="Label" Background="#003b95" Foreground="#ffc300"  VerticalAlignment="Center" HorizontalAlignment="Left" Content="Holiday Book"
                     FontWeight="Bold" FontFamily="Comic Sans MS" FontSize="25" Margin="200,20,0,0">
-                <Label.InputBindings>
-                    <MouseBinding Command="{Binding restartApp}" MouseAction="LeftClick"/>
-                </Label.InputBindings>
-            </Label>
-        </WrapPanel>
-        <WrapPanel Grid.Row="0" HorizontalAlignment="Right" Background="#003b95">
-            <Button Name="Register" Background="White" Foreground="#0077b6" HorizontalAlignment="Right" Width="70" Height="30" Content="Register" Margin="0,30,10,0">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="3"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
-            <Button Name="SignIn" Background="White" Foreground="#0077b6" HorizontalAlignment="Right" Width="70" Height="30" Content="Sign In" Margin="0,30,200,0">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="3"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
-        </WrapPanel>
-        <WrapPanel Grid.Row="1" HorizontalAlignment="Stretch" Orientation="Horizontal" Background="#003b95" VerticalAlignment="Center">
-            <Button Name="Flights" Background="#003b95" Foreground="White" Content="Flights" Width="80" Height="35" BorderBrush="White" 
+                    <Label.InputBindings>
+                        <MouseBinding Command="{Binding restartApp}" MouseAction="LeftClick"/>
+                    </Label.InputBindings>
+                </Label>
+            </WrapPanel>
+            <WrapPanel Grid.Row="0" HorizontalAlignment="Right" Background="#003b95">
+                <Button Name="Register" Background="White" Foreground="#0077b6" HorizontalAlignment="Right" Width="70" Height="30" Content="Register" Margin="0,30,10,0">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Name="SignIn" Background="White" Foreground="#0077b6" HorizontalAlignment="Right" Width="70" Height="30" Content="Sign In" Margin="0,30,200,0">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="3"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </WrapPanel>
+            <WrapPanel Grid.Row="1" HorizontalAlignment="Stretch" Orientation="Horizontal" Background="#003b95" VerticalAlignment="Center">
+                <Button Name="Flights" Background="#003b95" Foreground="White" Content="Flights" Width="80" Height="35" BorderBrush="White" 
                     BorderThickness="0" Margin="200,0,0,0" Command="{Binding RadioButtons}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="15"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
-            <Button Name="Stays" Background="#003b95" Foreground="White" Content="Stays"  HorizontalAlignment="Center" Width="80" Height="35"
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="15"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Name="Stays" Background="#003b95" Foreground="White" Content="Stays"  HorizontalAlignment="Center" Width="80" Height="35"
                     BorderBrush="White" BorderThickness="0" Command="{Binding RadioButtons}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="15"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
-            <Button Name="FlightsHotel" Background="#003b95" Foreground="White" Content="Flights + Hotel"  HorizontalAlignment="Center" Width="120" Height="35"
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="15"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Button Name="FlightsHotel" Background="#003b95" Foreground="White" Content="Flights + Hotel"  HorizontalAlignment="Center" Width="120" Height="35"
                     BorderBrush="White" BorderThickness="0" Command="{Binding RadioButtons}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="15"/>
-                    </Style>
-                </Button.Resources>
-            </Button>
-        </WrapPanel>
-        <WrapPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="#f5f5f5" >
-            <WrapPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="200,0,0,0">
-                <TextBlock Name="dreamTtl1" Text="Compare and book flights with ease" FontFamily="Abadi" FontSize="30" FontWeight="Bold" Margin="0,30,0,0" ></TextBlock>
-                <TextBlock Name="dreamTtl2" Text="Discover your next dream destination" FontFamily="Abadi" FontSize="16" Margin="0,5,0,0" ></TextBlock>
-                <WrapPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,5,0,0">
-                    <RadioButton Name="AlsoBack" GroupName="FlightType" Content="Round-Trip" IsChecked="True" Margin="0,5,20,0" Command="{Binding FlightBack}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
-                    <RadioButton Name="OneWay" GroupName="FlightType" Content="One-way" Background="White" Margin="0,5,20,0" Command="{Binding FlightBack}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
-                    <ComboBox Name="Class" Background="#eeeeee" SelectedItem="{Binding Class, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,2,20,0" BorderThickness="0" ItemsSource="{Binding Classes,Mode=OneWay}"/>
-                    <Button Name="Travellers" Content="{Binding Travellerscontent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="15"/>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </WrapPanel>
+            <WrapPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Stretch" Background="#f5f5f5" >
+                <WrapPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="200,0,0,0">
+                    <TextBlock Name="dreamTtl1" Text="Compare and book flights with ease" FontFamily="Abadi" FontSize="30" FontWeight="Bold" Margin="0,30,0,0" ></TextBlock>
+                    <TextBlock Name="dreamTtl2" Text="Discover your next dream destination" FontFamily="Abadi" FontSize="16" Margin="0,5,0,0" ></TextBlock>
+                    <WrapPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Bottom" Margin="0,5,0,0">
+                        <RadioButton Name="AlsoBack" GroupName="FlightType" Content="Round-Trip" IsChecked="True" Margin="0,5,20,0" Command="{Binding FlightBack}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+                        <RadioButton Name="OneWay" GroupName="FlightType" Content="One-way" Background="White" Margin="0,5,20,0" Command="{Binding FlightBack}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+                        <ComboBox Name="Class" Background="#eeeeee" SelectedItem="{Binding Class, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,2,20,0" BorderThickness="0" ItemsSource="{Binding Classes,Mode=OneWay}"/>
+                        <Button Name="Travellers" Content="{Binding Travellerscontent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             Background="#f5f5f5" BorderThickness="0" Margin="0,0,20,0" Command="{Binding showPopUp}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" ></Button>
-                    <Popup Name="popupTraveller" PlacementTarget="{Binding ElementName=Travellers}" 
+                        <Popup Name="popupTraveller" PlacementTarget="{Binding ElementName=Travellers}" 
                        IsOpen="False" StaysOpen="False" MinWidth="350" MaxWidth="425" MinHeight="200"
                        AllowsTransparency="False" UseLayoutRounding="True">
-                        <WrapPanel HorizontalAlignment="Stretch" Background="White">
-                            <WrapPanel Orientation="Vertical">
-                                <WrapPanel Orientation="Vertical" Margin="15,15,15,0">
-                                    <Border BorderThickness="1.2" BorderBrush="#eeeeee" CornerRadius="3">
-                                        <WrapPanel Orientation="Horizontal" Background="White" Height="50" VerticalAlignment="Center"  MinWidth="150" Margin="5,15,0,5">
-                                            <WrapPanel Orientation="Vertical" Margin="0,0,210,0">
-                                                <TextBlock Name="showAdultTxt" Text="Adult" FontSize="14" FontWeight="Bold"></TextBlock>
-                                                <TextBlock Text="Age 18+" FontSize="12" Margin="0,2,0,0"></TextBlock>
-                                            </WrapPanel>
-                                            <Button Name="adultDecrease" Command="{Binding removeAdult}" Width="30" Height="30" Margin="0,0,15,0" Content="-" 
+                            <WrapPanel HorizontalAlignment="Stretch" Background="White">
+                                <WrapPanel Orientation="Vertical">
+                                    <WrapPanel Orientation="Vertical" Margin="15,15,15,0">
+                                        <Border BorderThickness="1.2" BorderBrush="#eeeeee" CornerRadius="3">
+                                            <WrapPanel Orientation="Horizontal" Background="White" Height="50" VerticalAlignment="Center"  MinWidth="150" Margin="5,15,0,5">
+                                                <WrapPanel Orientation="Vertical" Margin="0,0,210,0">
+                                                    <TextBlock Name="showAdultTxt" Text="Adult" FontSize="14" FontWeight="Bold"></TextBlock>
+                                                    <TextBlock Text="Age 12+" FontSize="12" Margin="0,2,0,0"></TextBlock>
+                                                </WrapPanel>
+                                                <Button Name="adultDecrease" Command="{Binding removeAdult}" Width="30" Height="30" Margin="0,0,15,0" Content="-" 
                                                     FontSize="19" Foreground="White" FontWeight="Bold" VerticalContentAlignment="Top" 
                                                     Background="#006ce3"  IsEnabled="{Binding AdultCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                                <Button.Resources>
-                                                    <Style TargetType="Border">
-                                                        <Setter Property="CornerRadius" Value="7"></Setter>
-                                                    </Style>
-                                                </Button.Resources>
-                                            </Button>
-                                            <TextBlock Name="adultCount" Text="{Binding Adults, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Margin="0,5,15,0"></TextBlock>
-                                            <Button Name="adultIncrease" Command="{Binding addAdult}" Margin="0,0,20,0" Width="30" Height="30" Content="+" FontSize="19" Foreground="White" FontWeight="Bold" VerticalContentAlignment="Top" Background="#006ce3">
-                                                <Button.Resources>
-                                                    <Style TargetType="Border">
-                                                        <Setter Property="CornerRadius" Value="7"></Setter>
-                                                    </Style>
-                                                </Button.Resources>
-                                            </Button>
-                                        </WrapPanel>
-                                    </Border>
-                                    <Border BorderThickness="1.2" BorderBrush="#eeeeee" CornerRadius="3" Margin="0,5,0,15">
-                                        <WrapPanel Name="childrenCare" Orientation="Vertical" MinWidth="150" Background="White" Margin="5,15,0,5" Height="50" VerticalAlignment="Center">
-                                            <WrapPanel Orientation="Horizontal">
-                                                <WrapPanel Orientation="Vertical" Margin="0,0,200,0">
-                                                    <TextBlock Text="Children" FontSize="14" FontWeight="Bold"></TextBlock>
-                                                    <TextBlock Text="Age 0 - 17" FontSize="12" Margin="0,2,0,0"></TextBlock>
-                                                </WrapPanel>
-                                                <Button Name="travellersDecrease" Command="{Binding removeChildren}" Width="30" Height="30" Margin="0,0,15,0" Content="-"  FontSize="19" 
-                                                        Foreground="White" FontWeight="Bold" VerticalContentAlignment="Top"
-                                                        Background="#006ce3" IsEnabled="{Binding ChildrenCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                                                     <Button.Resources>
                                                         <Style TargetType="Border">
                                                             <Setter Property="CornerRadius" Value="7"></Setter>
                                                         </Style>
                                                     </Button.Resources>
                                                 </Button>
-                                                <TextBlock Name="travellerCount" Text="{Binding Children, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Margin="0,5,15,0"></TextBlock>
-                                                <Button Name="travellersIncrease" Command="{Binding addChildren}" Width="30" Height="30" Margin="0,0,20,0" Background="#006ce3" Content="+" FontSize="19" Foreground="White" FontWeight="Bold" VerticalContentAlignment="Top">
+                                                <TextBlock Name="adultCount" Text="{Binding Adults, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Margin="0,5,15,0"></TextBlock>
+                                                <Button Name="adultIncrease" Command="{Binding addAdult}" Margin="0,0,20,0" Width="30" Height="30" Content="+" FontSize="19" Foreground="White" FontWeight="Bold" VerticalContentAlignment="Top" Background="#006ce3">
                                                     <Button.Resources>
                                                         <Style TargetType="Border">
                                                             <Setter Property="CornerRadius" Value="7"></Setter>
@@ -129,125 +104,276 @@
                                                     </Button.Resources>
                                                 </Button>
                                             </WrapPanel>
+                                        </Border>
+                                        <Border BorderThickness="1.2" BorderBrush="#eeeeee" CornerRadius="3" Margin="0,5,0,15">
+                                            <WrapPanel Name="childrenCare" Orientation="Vertical" MinWidth="150" Background="White" Margin="5,15,0,5" Height="50" VerticalAlignment="Center">
+                                                <WrapPanel Orientation="Horizontal">
+                                                    <WrapPanel Orientation="Vertical" Margin="0,0,200,0">
+                                                        <TextBlock Text="Children" FontSize="14" FontWeight="Bold"></TextBlock>
+                                                        <TextBlock Text="Age 0 - 17" FontSize="12" Margin="0,2,0,0"></TextBlock>
+                                                    </WrapPanel>
+                                                    <Button Name="travellersDecrease" Command="{Binding removeChildren}" Width="30" Height="30" Margin="0,0,15,0" Content="-"  FontSize="19" 
+                                                        Foreground="White" FontWeight="Bold" VerticalContentAlignment="Top"
+                                                        Background="#006ce3" IsEnabled="{Binding ChildrenCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                        <Button.Resources>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="CornerRadius" Value="7"></Setter>
+                                                            </Style>
+                                                        </Button.Resources>
+                                                    </Button>
+                                                    <TextBlock Name="travellerCount" Text="{Binding Children, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="18" Margin="0,5,15,0"></TextBlock>
+                                                    <Button Name="travellersIncrease" Command="{Binding addChildren}" Width="30" Height="30" Margin="0,0,20,0" Background="#006ce3" Content="+" FontSize="19" Foreground="White" FontWeight="Bold" VerticalContentAlignment="Top">
+                                                        <Button.Resources>
+                                                            <Style TargetType="Border">
+                                                                <Setter Property="CornerRadius" Value="7"></Setter>
+                                                            </Style>
+                                                        </Button.Resources>
+                                                    </Button>
+                                                </WrapPanel>
+                                            </WrapPanel>
+                                        </Border>
+                                    </WrapPanel>
+                                    <Grid Background="#f5f5f5">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="80"/>
+                                        </Grid.RowDefinitions>
+                                        <WrapPanel VerticalAlignment="Top" Grid.Row="0" HorizontalAlignment="Stretch" Margin="0,12,0,0" Background="#f5f5f5">
+                                            <WrapPanel Orientation="Vertical" Name="showErr">
+                                                <TextBlock Name="finishPassengerTxt" Text="{Binding Travellerscontent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Margin="20,0,0,0" FontWeight="Bold"></TextBlock>
+                                            </WrapPanel>
                                         </WrapPanel>
-                                    </Border>
+                                        <WrapPanel VerticalAlignment="Top" Grid.Row="0" HorizontalAlignment="Right" Margin="0,15,0,0">
+                                            <Button Background="#006ce3" Command="{Binding checkTravellers}" Content="Done" Foreground="White" Width="100" Height="50" Margin="0,0,20,0">
+                                                <Button.Resources>
+                                                    <Style TargetType="Border">
+                                                        <Setter Property="CornerRadius" Value="3"></Setter>
+                                                    </Style>
+                                                </Button.Resources>
+                                            </Button>
+                                        </WrapPanel>
+                                    </Grid>
                                 </WrapPanel>
-                                <Grid Background="#f5f5f5">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="80"/>
-                                    </Grid.RowDefinitions>
-                                    <WrapPanel VerticalAlignment="Top" Grid.Row="0" HorizontalAlignment="Stretch" Margin="0,12,0,0" Background="#f5f5f5">
-                                        <WrapPanel Orientation="Vertical" Name="showErr">
-                                            <TextBlock Name="finishPassengerTxt" Text="{Binding Travellerscontent, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14" Margin="20,0,0,0" FontWeight="Bold"></TextBlock>
-                                        </WrapPanel>
-                                    </WrapPanel>
-                                    <WrapPanel VerticalAlignment="Top" Grid.Row="0" HorizontalAlignment="Right" Margin="0,15,0,0">
-                                        <Button Background="#006ce3" Command="{Binding checkTravellers}" Content="Done" Foreground="White" Width="100" Height="50" Margin="0,0,20,0">
-                                            <Button.Resources>
-                                                <Style TargetType="Border">
-                                                    <Setter Property="CornerRadius" Value="3"></Setter>
-                                                </Style>
-                                            </Button.Resources>
-                                        </Button>
-                                    </WrapPanel>
-                                </Grid>
                             </WrapPanel>
-                        </WrapPanel>
-                    </Popup>
-                </WrapPanel>
-                <Border Background="#ffc300" CornerRadius="3" Width="Auto" Margin="0,20,0,0">
-                    <WrapPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
-                        <Button Name="txtDepartureAirport" Background="White" Foreground="Gray"  Width="355" Height="50" VerticalAlignment="Center" Content="Where from?" Command="{Binding showPopUp}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"  Margin="5,5,0,5" BorderThickness="0">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="3"/>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
-                        <Popup Name="popupDepPort" PlacementTarget="{Binding ElementName=txtDepartureAirport}" 
+                        </Popup>
+                    </WrapPanel>
+                    <Border Background="#ffc300" CornerRadius="3" Width="Auto" Margin="0,20,0,0">
+                        <WrapPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button Name="txtDepartureAirport" Background="White" Foreground="Gray"  Width="355" Height="50" VerticalAlignment="Center" Content="Where from?" Command="{Binding showPopUp}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"  Margin="5,5,0,5" BorderThickness="0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <Popup Name="popupDepPort" PlacementTarget="{Binding ElementName=txtDepartureAirport}" 
                        IsOpen="False" StaysOpen="False" MinWidth="62"
                        VerticalOffset="10" AllowsTransparency="True">
-                            <WrapPanel Name="depAirportPanel" VerticalAlignment="Center" Orientation="Vertical" Background="White">
-                                <TextBox Margin="15,15,15,0" Name="depLookUp" Background="White" Height="50" Width="{Binding Path=ActualWidth, ElementName=txtDepartureAirport}" 
+                                <WrapPanel Name="depAirportPanel" VerticalAlignment="Center" Orientation="Vertical" Background="White">
+                                    <TextBox Margin="15,15,15,0" Name="depLookUp" Background="White" Height="50" Width="{Binding Path=ActualWidth, ElementName=txtDepartureAirport}" 
                                          Foreground="Gray" Text="{Binding DepAirportFinder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14" VerticalContentAlignment="Center" Padding="10">
-                                    <TextBox.Resources>
-                                        <Style TargetType="Border">
-                                            <Setter Property="CornerRadius" Value="4"/>
-                                        </Style>
-                                    </TextBox.Resources>
-                                    <TextBox.InputBindings>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding showAirportTxt}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
-                                    </TextBox.InputBindings>
-                                </TextBox>
-                                <TextBlock Name="compareFlights" Margin="0,8,0,0" TextWrapping="Wrap" MaxWidth="{Binding Path=ActualWidth, ElementName=txtDepartureAirport}" FontSize="13" Text="Wählen Sie mehrere Flughäfen gleichzeitig aus und vergleichen Sie Flüge"></TextBlock>
-                            </WrapPanel>
-                        </Popup>
-                        <Button Name="txtArrivalAirport" Background="White" Foreground="Gray"  Width="355" VerticalAlignment="Center" Height="50" Margin="4,5,0,5" Content="Where to?" Command="{Binding showPopUp}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" BorderThickness="0">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="3"/>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
-                        <Popup Name="popupArrPort" PlacementTarget="{Binding ElementName=txtArrivalAirport}" 
+                                        <TextBox.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="4"/>
+                                            </Style>
+                                        </TextBox.Resources>
+                                        <TextBox.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding showAirportTxt}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                        </TextBox.InputBindings>
+                                    </TextBox>
+                                    <TextBlock Name="compareFlights" Margin="0,8,0,0" TextWrapping="Wrap" MaxWidth="{Binding Path=ActualWidth, ElementName=txtDepartureAirport}" FontSize="13" Text="Wählen Sie mehrere Flughäfen gleichzeitig aus und vergleichen Sie Flüge"></TextBlock>
+                                </WrapPanel>
+                            </Popup>
+                            <Button Name="txtArrivalAirport" Background="White" Foreground="Gray"  Width="355" VerticalAlignment="Center" Height="50" Margin="4,5,0,5" Content="Where to?" Command="{Binding showPopUp}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" BorderThickness="0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <Popup Name="popupArrPort" PlacementTarget="{Binding ElementName=txtArrivalAirport}" 
                        IsOpen="False" StaysOpen="False" MinWidth="62"
                        AllowsTransparency="True" VerticalOffset="10">
-                            <WrapPanel Name="arrAirportPanel" VerticalAlignment="Center" Orientation="Vertical" Background="White">
-                                <TextBox Margin="15,15,15,0" Name="arrLookUp" Background="White" Height="50" Width="{Binding Path=ActualWidth, ElementName=txtArrivalAirport}" 
+                                <WrapPanel Name="arrAirportPanel" VerticalAlignment="Center" Orientation="Vertical" Background="White">
+                                    <TextBox Margin="15,15,15,0" Name="arrLookUp" Background="White" Height="50" Width="{Binding Path=ActualWidth, ElementName=txtArrivalAirport}" 
                                          Foreground="Gray"  Text="{Binding ArrAirportFinder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="14" VerticalContentAlignment="Center" Padding="10">
-                                    <TextBox.Resources>
-                                        <Style TargetType="Border">
-                                            <Setter Property="CornerRadius" Value="4"/>
-                                        </Style>
-                                    </TextBox.Resources>
-                                    <TextBox.InputBindings>
-                                        <MouseBinding MouseAction="LeftClick" Command="{Binding showAirportTxt}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
-                                    </TextBox.InputBindings>
-                                </TextBox>
-                                <TextBlock Name="compareFlights2" Margin="0,8,0,0" TextWrapping="Wrap" MaxWidth="{Binding Path=ActualWidth, ElementName=txtArrivalAirport}" FontSize="13" Text="Wählen Sie mehrere Flughäfen gleichzeitig aus und vergleichen Sie Flüge"></TextBlock>
-                            </WrapPanel>
-                        </Popup>
-                        <Button Name="txtDateRange" Background="White" Content="When?" VerticalAlignment="Center" 
+                                        <TextBox.Resources>
+                                            <Style TargetType="Border">
+                                                <Setter Property="CornerRadius" Value="4"/>
+                                            </Style>
+                                        </TextBox.Resources>
+                                        <TextBox.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding showAirportTxt}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TextBox}}}"/>
+                                        </TextBox.InputBindings>
+                                    </TextBox>
+                                    <TextBlock Name="compareFlights2" Margin="0,8,0,0" TextWrapping="Wrap" MaxWidth="{Binding Path=ActualWidth, ElementName=txtArrivalAirport}" FontSize="13" Text="Wählen Sie mehrere Flughäfen gleichzeitig aus und vergleichen Sie Flüge"></TextBlock>
+                                </WrapPanel>
+                            </Popup>
+                            <Button Name="txtDateRange" Background="White" Content="When?" VerticalAlignment="Center" 
                                 Width="300" Height="50" Margin="4,5,0,5" Foreground="Gray" Command="{Binding showPopUp}" 
                                 CommandParameter="{Binding RelativeSource={RelativeSource Self}}" BorderThickness="0">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="3"/>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
-                        <Popup Name="popupCalendar" PlacementTarget="{Binding ElementName=txtDateRange}" 
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <Popup Name="popupCalendar" PlacementTarget="{Binding ElementName=txtDateRange}" 
                        StaysOpen="False" AllowsTransparency="False" FocusManager.IsFocusScope="False">
-                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="White">
-                                <!--DisplayDate="2023-02-26" -->
-                                <Calendar  Name="calendar" BorderThickness="0" SelectionMode="MultipleRange" DisplayDateEnd="{Binding Dateend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Background="White">
+                                    <!--DisplayDate="2023-02-26" -->
+                                    <Calendar  Name="calendar" BorderThickness="0" SelectionMode="MultipleRange" DisplayDateEnd="{Binding Dateend, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                            DisplayDateStart="{Binding Datestart, Mode=OneWay}" DisplayDate="{Binding DpDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                </Calendar>
-                                <!--DisplayDate="{Binding Path=DisplayDate, ElementName=calendar,  Converter={StaticResource conv}}" -->
-                                <Calendar  Name="calendar2" BorderThickness="0" SelectionMode="MultipleRange" DisplayDateStart="{Binding Datestart2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    </Calendar>
+                                    <!--DisplayDate="{Binding Path=DisplayDate, ElementName=calendar,  Converter={StaticResource conv}}" -->
+                                    <Calendar  Name="calendar2" BorderThickness="0" SelectionMode="MultipleRange" DisplayDateStart="{Binding Datestart2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                            DisplayDateEnd="{Binding Dateend2, Mode=OneWay}" DisplayDate="{Binding DpDate2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                </Calendar>
-                            </WrapPanel>
-                        </Popup>
-                        <Button Content="Search" Name="btnSearch" Background="#006ce3" VerticalAlignment="Center" Width="118" Height="50" Margin="4,5,5,5" Foreground="White" BorderThickness="0">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="3"/>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
-                    </WrapPanel>
-                </Border>
-                <WrapPanel Margin="0,15,0,0" Orientation="Horizontal">
-                    <Border CornerRadius="3" BorderThickness="0.8" Width="15" Height="15" BorderBrush="Black">
-                        <CheckBox Name="DirectFlights" Command="{Binding DirectFlight}" Content="Direct flights only" BorderThickness="0"/>
+                                    </Calendar>
+                                </WrapPanel>
+                            </Popup>
+                            <Button Content="Search" Command="{Binding ButtonChecker}" Name="btnSearch" Background="#006ce3" VerticalAlignment="Center" Width="118" Height="50" Margin="4,5,5,5" Foreground="White" BorderThickness="0">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="3"/>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                        </WrapPanel>
                     </Border>
-                    <TextBlock Margin="5,0,0,0" Text="Direct flights only"></TextBlock>
+                    <WrapPanel Margin="0,15,0,0" Orientation="Horizontal">
+                        <Border CornerRadius="3" BorderThickness="0.8" Width="15" Height="15" BorderBrush="Black">
+                            <CheckBox Name="DirectFlights" Command="{Binding DirectFlight}" Content="Direct flights only" BorderThickness="0"/>
+                        </Border>
+                        <TextBlock Margin="5,0,0,0" Text="Direct flights only"></TextBlock>
+                    </WrapPanel>
                 </WrapPanel>
             </WrapPanel>
-        </WrapPanel>
-        <WrapPanel Grid.Row="3" HorizontalAlignment="Stretch" Background="White">
+            <Grid Grid.Row="3" Background="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                    <ColumnDefinition Width="363"></ColumnDefinition>
+                    <ColumnDefinition Width="37"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"></RowDefinition>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <WrapPanel Orientation="Vertical" Grid.Column="1" Grid.Row="1">
+                    <Label Content="Filter" FontSize="16" FontWeight="Bold"/>
+                    <TextBlock Margin="5,0,0,0" FontSize="14" Text="{Binding ShowResults, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Label Content="Stops" FontSize="14" FontWeight="Bold" Margin="0,20,0,0"/>
 
-        </WrapPanel>
-    </Grid>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="170"/>
+                            <ColumnDefinition Width="150"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        <WrapPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton GroupName="Stop-Filter" IsChecked="True" Margin="0,0,0,0">
+                                    <RadioButton.Template>
+                                        <ControlTemplate TargetType="{x:Type RadioButton}">
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <Grid>
+                                                    <Ellipse Width="16" Height="16" Fill="{TemplateBinding Background}"
+                             Stroke="{TemplateBinding BorderBrush}"
+                             StrokeThickness="{TemplateBinding BorderThickness}"/>
+                                                    <Ellipse x:Name="Checked" Width="10" Height="10" Fill="#006CE4" Visibility="Collapsed" StrokeThickness="3" Stroke="#006CE4"/>
+                                                </Grid>
+                                                <Label Margin="5 0 0 0" Content="{TemplateBinding Content}"
+                       Foreground="{TemplateBinding Foreground}"
+                       Background="{TemplateBinding Background}"/>
+                                            </StackPanel>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter TargetName="Checked" Property="Visibility" Value="Visible"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </RadioButton.Template>
+                                </RadioButton>
+                                <StackPanel Margin="0,0,80,0" Orientation="Vertical">
+                                    <Label Content="Any" FontSize="13"/>
+                                    <TextBlock Text="{Binding MinimalPriceAll,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,0,0"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </WrapPanel>
+                        <WrapPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding ShowResultsCount ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,7,0,0" Foreground="#8c8c8e"></TextBlock>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Left" Grid.Row="1" Grid.Column="0">
+                            <StackPanel Orientation="Horizontal">
+                                <RadioButton GroupName="Stop-Filter" Margin="0,0,0,0">
+                                    <RadioButton.Template>
+                                        <ControlTemplate TargetType="{x:Type RadioButton}">
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                <Grid>
+                                                    <Ellipse Width="16" Height="16" Fill="{TemplateBinding Background}"
+                             Stroke="{TemplateBinding BorderBrush}"
+                             StrokeThickness="{TemplateBinding BorderThickness}"/>
+                                                    <Ellipse x:Name="Checked" Width="10" Height="10" Fill="#006CE4" Visibility="Collapsed" StrokeThickness="3" Stroke="#006CE4"/>
+                                                </Grid>
+                                                <Label Margin="5 0 0 0" Content="{TemplateBinding Content}"
+                       Foreground="{TemplateBinding Foreground}"
+                       Background="{TemplateBinding Background}"/>
+                                            </StackPanel>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsChecked" Value="True">
+                                                    <Setter TargetName="Checked" Property="Visibility" Value="Visible"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </RadioButton.Template>
+                                </RadioButton>
+                                <StackPanel Margin="0,0,80,0" Orientation="Vertical">
+                                    <Label Content="1 stop max" FontSize="13"/>
+                                    <TextBlock Text="{Binding MinimalPriceMax1,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,0,0,0"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </WrapPanel>
+                        <WrapPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right">
+                            <TextBlock Text="{Binding ShowResultsOfOneStopCount ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,7,0,0" Foreground="#8c8c8e"></TextBlock>
+                        </WrapPanel>
+                    </Grid>
+                    <Label Content="Airlines" FontSize="14" FontWeight="Bold" Margin="0,20,0,0"/>
+                    <ListView Name="Airlines" Height="120" Width="auto" BorderThickness="0" ItemsSource="{Binding Path=AirlinesList}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="220"/>
+                                        <ColumnDefinition Width="100"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Column="0">
+                                        <Border CornerRadius="3" BorderThickness="0.8" Width="15" Height="15" BorderBrush="#006ce4" Background="#006ce4">
+                                            <CheckBox Name="ExcludeAirline" Command="{Binding AirlineCheck}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
+                                                      IsChecked="true"  Width="200" BorderThickness="0" Background="#006ce4"/>
+                                        </Border>
+                                        <TextBlock Margin="10,0,0,0" Text="{Binding Name}"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel HorizontalAlignment="Right" Grid.Column="1">
+                                        <TextBlock Text="{Binding OffersOfAirliens}" Foreground="#8c8c8e"></TextBlock>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <Label Content="Flight times" FontSize="14" FontWeight="Bold" Margin="0,20,0,0"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Name="outbound" Width="165" Height="50" Content="Outbound flight" Foreground="#006ce4" Background="White" 
+                                BorderThickness="0" Command="{Binding ArrOrDep}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"></Button>
+                        <Button Name="return" Width="165" Height="50" Content="Return flight" Background="White" 
+                                BorderThickness="0" Command="{Binding ArrOrDep}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"></Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,100">
+                        <Border Name="arrBor" Width="165" Height="2" Background="#006ce4"></Border>
+                        <Border Name="depBor" Width="165" Height="1" Background="#e7e7e7"></Border>
+                    </StackPanel>
+                </WrapPanel>
+            </Grid>
+        </Grid>
+    </ScrollViewer>
 </Window>                                                                                                                                                                                                   

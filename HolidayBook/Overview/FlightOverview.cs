@@ -14,6 +14,9 @@ using System.Resources;
 using Model;
 using System.Net.Http;
 using HolidayBook.Overview.Classes;
+using HolidayBook.ViewModels;
+using System.Globalization;
+using Model.Model;
 
 namespace HolidayBook.Overview
 {
@@ -48,16 +51,17 @@ namespace HolidayBook.Overview
             , string? excludeAir = null, bool nonStop = false, string? currencyCode = null, int? maxPrice = null)
         {
             string url = attributeCheck(retDate, adults, children, infants, klass, includeAir, excludeAir, nonStop, currencyCode, maxPrice);
-            //Console.WriteLine($"https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode={startLoc}&destinationLocationCode={destLoc}&departureDate={depDate}{url}&max=80");
+            string test = $"https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode={startLoc}&destinationLocationCode={destLoc}&departureDate={depDate}{url}&max=250";
             var flightdata = new List<FlightOfferDetails>();
             string token = await Token();
             HttpClient client = new HttpClient();
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri($"https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode={startLoc}&destinationLocationCode={destLoc}&departureDate={depDate}{url}&max=80"),
+                RequestUri = new Uri($"https://test.api.amadeus.com/v2/shopping/flight-offers?originLocationCode={startLoc}&destinationLocationCode={destLoc}&departureDate={depDate}{url}&max=250"),
                 Content = new StringContent("", Encoding.UTF8, "application/vnd.amadeus+json"),
             };
+
             request.Headers.Add("Authorization", $"Bearer {token}");
             request.Headers.Add("accept", "application/vnd.amadeus+json");
 
@@ -96,8 +100,8 @@ namespace HolidayBook.Overview
                     List<DateTime> arr_Arrivals = new List<DateTime>();
                     for (int i = 0; i < offers.itineraries[1].segments.Count(); i++)
                     {
-                        dep_Departures.Add(offers.itineraries[1].segments[i].departure.at);
-                        dep_Arrivals.Add(offers.itineraries[1].segments[i].arrival.at);
+                        arr_Departures.Add(offers.itineraries[1].segments[i].departure.at);
+                        arr_Arrivals.Add(offers.itineraries[1].segments[i].arrival.at);
                         if (!arrives_airlines.Contains(airlines_full[offers.itineraries[1].segments[i].carrierCode]))
                         {
                             arrives_airlines += (arrives_first == 0) ? airlines_full[offers.itineraries[1].segments[i].carrierCode] : ", " + airlines_full[offers.itineraries[1].segments[i].carrierCode];
@@ -115,7 +119,7 @@ namespace HolidayBook.Overview
                     string arr_hour = (arr_datetime.Contains("H")) ? arr_datetime.Substring(0, arr_datetime.IndexOf("H")) : null;
                     string arr_min = (arr_datetime.Contains("M")) ? arr_datetime.Substring(arr_datetime.IndexOf("H") + 1, arr_datetime.IndexOf("M") - arr_datetime.IndexOf("H") - 1) : null;
                     int arr_duration = Int32.Parse(arr_hour ?? "0") * 60 + Int32.Parse(arr_min ?? "0");
-                    float tot_price = float.Parse(offers.price.grandTotal);
+                    float tot_price = float.Parse(offers.price.grandTotal, CultureInfo.InvariantCulture.NumberFormat);
                     //char currency = Char.Parse(offers.price.currency);
                     string currency = db.Currencies.SingleOrDefault(c => c.Currency_Code == offers.price.currency).Currency_Symbol;
 
@@ -148,9 +152,9 @@ namespace HolidayBook.Overview
 
             url += $"&adults={adults}";
 
-            url += (children == 0)? "" : $"&children{children}";
+            url += (children == 0)? "" : $"&children={children}";
 
-            url += (infants == 0)? "" : $"&infants{infants}";
+            url += (infants == 0)? "" : $"&infants={infants}";
 
             url += (klass == null)? "" : $"&travelClass={klass}";
 
@@ -162,9 +166,42 @@ namespace HolidayBook.Overview
 
             url += (currencyCode == null)? "" : $"&currencyCode={currencyCode}";
 
-            url += (maxPrice == null)? "" : $"&maxPrice{maxPrice}";
+            url += (maxPrice == null)? "" : $"&maxPrice={maxPrice}";
 
             return url ;
+        }
+
+        public static List<FlightOffersDB> addToDb(List<FlightOfferDetails> flights, HolidayBookContext db) 
+        {
+            List<FlightOffersDB> flightsDB = new List<FlightOffersDB>();
+            foreach(FlightOfferDetails flight in flights) {
+                FlightOffersDB flightInDB = new(flight.Departs_airlines, flight.Departs_duration, flight.Arrives_airlines, flight.Price, flight.Currency, 
+                    //flight.Dep_Departures, flight.Dep_Arrivals, flight.Arr_Departures, flight.Arr_Arrivals,
+                    flight.Dep_Stops, flight.Arr_Stops);
+                foreach(DateTime fl in flight.Dep_Departures)
+                {
+                    FlightToDep flDB = new FlightToDep(fl, flightInDB);
+                    db.AddFlightDates(flDB);
+                }
+                foreach (DateTime fl in flight.Dep_Arrivals)
+                {
+                    FlightToArr flDB = new FlightToArr(fl, flightInDB);
+                    db.AddFlightDates(flDB);
+                }
+                foreach (DateTime fl in flight.Arr_Departures)
+                {
+                    FlightBackDep flDB = new FlightBackDep(fl, flightInDB);
+                    db.AddFlightDates(flDB);
+                }
+                foreach (DateTime fl in flight.Arr_Arrivals)
+                {
+                    FlightBackArr flDB = new FlightBackArr(fl, flightInDB);
+                    db.AddFlightDates(flDB);
+                }
+
+                flightsDB.Add(flightInDB);
+            }
+            return flightsDB;
         }
     }
 }

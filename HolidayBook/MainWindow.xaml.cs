@@ -63,15 +63,15 @@ namespace HolidayBook
                     {
                         calendar2.SelectedDates.Clear();
                         selDates = calendar.SelectedDates;
-                        FlightBookData.depDate = calendar.SelectedDates.First().ToString("yyyy-mm-dd");
-                        FlightBookData.retDate = calendar.SelectedDates.Last().ToString("yyyy-mm-dd");
+                        FlightBookData.depDate = calendar.SelectedDates.First().ToString("yyyy-MM-dd");
+                        FlightBookData.retDate = calendar.SelectedDates.Last().ToString("yyyy-MM-dd");
                     }
                     else
                     {
                         calendar.SelectedDates.Clear();
                         selDates = calendar2.SelectedDates;
-                        FlightBookData.depDate = calendar2.SelectedDates.First().ToString("yyyy-mm-dd");
-                        FlightBookData.retDate = calendar2.SelectedDates.Last().ToString("yyyy-mm-dd");
+                        FlightBookData.depDate = calendar2.SelectedDates.First().ToString("yyyy-MM-dd");
+                        FlightBookData.retDate = calendar2.SelectedDates.Last().ToString("yyyy-MM-dd");
                     }
                 }
                 else if (ls.Count == 1)
@@ -84,13 +84,13 @@ namespace HolidayBook
                             string restTxt = fullTxt.Substring(fullTxt.IndexOf(" - "));
                             fullTxt = ((DateTime.Now.Year == cal.SelectedDates.First().Year) ? cal.SelectedDates.First().ToString("ddd, MMM dd") : cal.SelectedDates.First().ToString("ddd, MMM dd, yyyy")) + restTxt;
                             txtDateRange.Content = fullTxt;
-                            FlightBookData.depDate = calendar.SelectedDates.First().ToString("yyyy-mm-dd");
+                            FlightBookData.depDate = calendar.SelectedDates.First().ToString("yyyy-MM-dd");
                         }
                         else
                         {
                             txtDateRange.Content = (DateTime.Now.Year == cal.SelectedDates.First().Year) ? cal.SelectedDates.First().ToString("ddd, MMM dd") : cal.SelectedDates.First().ToString("ddd, MMM dd, yyyy");
                             txtDateRange.Content += " - Rückflug";
-                            FlightBookData.depDate = calendar.SelectedDates.First().ToString("yyyy-mm-dd");
+                            FlightBookData.depDate = calendar.SelectedDates.First().ToString("yyyy-MM-dd");
                         }
                     }
                     else
@@ -101,13 +101,13 @@ namespace HolidayBook
                             string firstTxt = fullTxt.Substring(0, fullTxt.IndexOf(" -") + 3);
                             fullTxt = firstTxt + ((DateTime.Now.Year == cal.SelectedDates.First().Year) ? cal.SelectedDates.First().ToString("ddd, MMM dd") : cal.SelectedDates.First().ToString("ddd, MMM dd, yyyy"));
                             txtDateRange.Content = fullTxt;
-                            FlightBookData.retDate = calendar2.SelectedDates.Last().ToString("yyyy-mm-dd");
+                            FlightBookData.retDate = calendar2.SelectedDates.Last().ToString("yyyy-MM-dd");
                         }
                         else
                         {
                             txtDateRange.Content = "Abflug - ";
                             txtDateRange.Content += (DateTime.Now.Year == cal.SelectedDates.First().Year) ? cal.SelectedDates.First().ToString("ddd, MMM dd") : cal.SelectedDates.First().ToString("ddd, MMM dd, yyyy");
-                            FlightBookData.retDate = calendar2.SelectedDates.Last().ToString("yyyy-mm-dd");
+                            FlightBookData.retDate = calendar2.SelectedDates.Last().ToString("yyyy-MM-dd");
                         }
                     }
                 }

@@ -35,5 +35,6 @@ namespace HolidayBook.Overview.Classes
         public static int? maxPrice { get;  set; } = default;
 
         public static IDictionary<string, string?> travellers { get; set; } = new Dictionary<string, string?>();
+
     }
 }

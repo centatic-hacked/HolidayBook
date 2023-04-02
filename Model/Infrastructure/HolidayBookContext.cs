@@ -20,6 +20,16 @@ namespace Model.Infrastructure
 
         public DbSet<Airport> Airports => Set<Airport>();
 
+        public DbSet<FlightOffersDB> Flights => Set<FlightOffersDB>();
+
+        public DbSet<FlightToDep> FlightsToDep => Set<FlightToDep>();
+
+        public DbSet<FlightToArr> FlightsToArr => Set<FlightToArr>();
+
+        public DbSet<FlightBackDep> FlightsBackDep => Set<FlightBackDep>();
+
+        public DbSet<FlightBackArr> FlightsBackArr => Set<FlightBackArr>();
+
         public HolidayBookContext()
         { }
 
@@ -42,10 +52,44 @@ namespace Model.Infrastructure
             //modelBuilder.Entity<Product>().HasKey(new Product().GetType().GetProperties().SingleOrDefault(p => p.Name == "Description").Name);
             modelBuilder.Entity<Currency>().HasKey(c => c.Currency_Code);
             modelBuilder.Entity<Airport>().HasKey(a => a.IATA);
-            
-            modelBuilder.Entity<Currency>().HasIndex(c => c.Currency_Code);
 
+            modelBuilder.Entity<Currency>().HasIndex(c => c.Currency_Code);
+            modelBuilder.Entity<FlightToDep>().HasOne(dep => dep.FlightOfferNavigation).WithMany()
+                .HasForeignKey(dep => dep.FlightOfferNavigationId);
+            modelBuilder.Entity<FlightToArr>().HasOne(arr => arr.FlightOfferNavigation).WithMany()
+                .HasForeignKey(arr => arr.FlightOfferNavigationId);
+            modelBuilder.Entity<FlightBackDep>().HasOne(dep => dep.FlightOfferNavigation).WithMany()
+                .HasForeignKey(dep => dep.FlightOfferNavigationId);
+            modelBuilder.Entity<FlightBackArr>().HasOne(arr => arr.FlightOfferNavigation).WithMany()
+                .HasForeignKey(arr => arr.FlightOfferNavigationId);
+
+            modelBuilder.Entity<FlightToDep>().HasIndex(flDB => new {flDB.FlightOfferNavigationId, flDB.Dt}).IsUnique();
+            modelBuilder.Entity<FlightToArr>().HasIndex(flDB => new { flDB.FlightOfferNavigationId, flDB.Dt }).IsUnique();
+            modelBuilder.Entity<FlightBackDep>().HasIndex(flDB => new { flDB.FlightOfferNavigationId, flDB.Dt }).IsUnique();
+            modelBuilder.Entity<FlightBackArr>().HasIndex(flDB => new { flDB.FlightOfferNavigationId, flDB.Dt }).IsUnique();
             modelBuilder.Entity<User>().OwnsOne(u => u.Address);
+        }
+        public void AddFlights(List<FlightOffersDB> ls)
+        {
+            Flights.AddRange(ls);
+            SaveChanges();
+        }
+
+        public void AddFlightDates(object Date)
+        {
+            if (Date is FlightToDep)
+            {
+                FlightsToDep.Add((FlightToDep) Date);
+            }else if (Date is FlightToArr)
+            {
+                FlightsToArr.Add((FlightToArr)Date);
+            } else if (Date is FlightBackDep)
+            {
+                FlightsBackDep.Add((FlightBackDep) Date);
+            } else if (Date is FlightBackArr)
+            {
+                FlightsBackArr.Add((FlightBackArr)Date);
+            }
         }
 
         public void Seed()
@@ -54,7 +98,8 @@ namespace Model.Infrastructure
             start_currency = CultureInfo
                 .GetCultures(CultureTypes.AllCultures)
                 .Where(c => !c.IsNeutralCulture)
-                .Select(culture => {
+                .Select(culture =>
+                {
                     try
                     {
                         return new RegionInfo(culture.Name);
@@ -90,7 +135,7 @@ namespace Model.Infrastructure
 
                 })
                 .Generate(90);
-                
+
             Users.AddRange(users);
             SaveChanges();
             string FileToRead = @"C:\HTL\3BHIF\HolidayBook\airports.txt";
