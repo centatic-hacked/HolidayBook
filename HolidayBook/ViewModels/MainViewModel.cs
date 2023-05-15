@@ -20,6 +20,9 @@ using HolidayBook.Overview.Classes;
 using Bogus.Bson;
 using System.Runtime.ConstrainedExecution;
 using System.Windows.Media;
+using HolidayBook.Components;
+using static System.Net.Mime.MediaTypeNames;
+using Model.Model;
 
 namespace HolidayBook.ViewModels
 {
@@ -355,6 +358,22 @@ namespace HolidayBook.ViewModels
 
         public HolidayBookContext Database { get; private set; } = default!;
 
+        public Outbound Outbound { get; private set; }
+
+        public Return Return { get; private set; } = new();
+
+
+        private IEnumerable<FlightOffersDB> flights;
+
+        public IEnumerable<FlightOffersDB> Flights
+        {
+            get { return flights; }
+            set {
+                flights = value;
+                PR.Flights = value.ToList();
+            }
+        }
+
 
         public MainViewModel(MainWindow mw)
         {
@@ -369,8 +388,12 @@ namespace HolidayBook.ViewModels
                 FlightOverview.createDB();
                 db.Seed();
             }
+            FOG = new FlightOffersGUI(MW, db);
             Class = "Economy";
             Database = db;
+            Outbound = (Outbound) MW.Outbound_Return.Content;
+            OutboundViewModel.MVW = this;
+            ReturnViewModel.MVW = this;
             addAdult = new RelayCommand(() => Adults++);
             removeAdult = new RelayCommand(() => Adults--);
             showPopUp = new RelayCommand((object sender) =>
@@ -410,7 +433,7 @@ namespace HolidayBook.ViewModels
             restartApp = new RelayCommand(() =>
             {
                 Process.Start(Process.GetCurrentProcess().MainModule.FileName);
-                Application.Current.Shutdown();
+                System.Windows.Application.Current.Shutdown();
             });
             showAirportTxt = new RelayCommand((object sender) =>
             {
@@ -490,11 +513,11 @@ namespace HolidayBook.ViewModels
                    List<FlightOfferDetails> ls = await FlightOverview.FlightData(Database, FlightBookData.startAirport, FlightBookData.endAirport, FlightBookData.depDate, FlightBookData.retDate,
                         FlightBookData.adults, FlightBookData.children, FlightBookData.infants, FlightBookData.@class, FlightBookData.includeAir, FlightBookData.excludeAir,
                         FlightBookData.nonStop, FlightBookData.currency, FlightBookData.maxPrice);
-                    ShowResults = $"{ls.Count()}";
-                    ShowResultsCount = ls.Count();
-                    ShowResultsOfOneStopCount = ls.Where(flights => flights.Arr_Stops <= 1 && flights.Dep_Stops <= 1).Count();
-                    Database.AddFlights(FlightOverview.addToDb(ls, Database));
+                    Database.AddFlights(await FlightOverview.addToDb(ls, Database));
                     PR = new PreparedDataFilter(Database, this);
+                    Flights = Database.Flights;
+                    FOG.ChangeNumbers(Flights, "");
+                    PR.checkForAirline();
                 }
             });
             ArrOrDep = new RelayCommand((object sender) =>
@@ -508,6 +531,7 @@ namespace HolidayBook.ViewModels
                     MW.@return.Foreground = System.Windows.Media.Brushes.Black;
                     MW.depBor.Height = 1;
                     MW.depBor.Background = (Brush)new BrushConverter().ConvertFrom("#e7e7e7");
+                    MW.Outbound_Return.Content = Outbound;
                 } else
                 {
                     btn.Foreground = (Brush)new BrushConverter().ConvertFrom("#006ce4");
@@ -516,9 +540,97 @@ namespace HolidayBook.ViewModels
                     MW.outbound.Foreground = System.Windows.Media.Brushes.Black;
                     MW.arrBor.Background = (Brush)new BrushConverter().ConvertFrom("#e7e7e7");
                     MW.arrBor.Height = 1;
+                    MW.Outbound_Return.Content = Return;
                 }
             });
+            OrderButtons = new RelayCommand((object sender) =>
+            {
+                MW.Bests.BorderBrush = System.Windows.Media.Brushes.Transparent;
+                MW.Cheapests.BorderBrush = System.Windows.Media.Brushes.Transparent;
+                MW.Fastests.BorderBrush = System.Windows.Media.Brushes.Transparent;
+                MW.Best.Foreground = System.Windows.Media.Brushes.Black;
+                MW.Cheapest.Foreground = System.Windows.Media.Brushes.Black;
+                MW.Fastest.Foreground = System.Windows.Media.Brushes.Black;
+                Button btn = (Button) sender;
+                btn.Foreground = (Brush)new BrushConverter().ConvertFrom("#006ce4");
+                
+                switch (btn.Name)
+                {
+                    case "Fastest":
+                        MW.Fastests.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#006ce4");
+                        break;
+                    case "Cheapest":
+                        MW.Cheapests.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#006ce4");
+                        break;
+                    case "Best":
+                        MW.Bests.BorderBrush = (Brush)new BrushConverter().ConvertFrom("#006ce4");
+                        break;
+                }
+            });
+            AnyOrMaxOne = new RelayCommand((object sender) =>
+            {
+                RadioButton btn = (RadioButton) sender;
+                switch(btn.Name)
+                {
+                    case "Any":
+                        FOG.Afs.OneStop = false;
+                        Flights = FOG.CreateNewList();
+                        PR.checkForAirline();
+                        break;
+                    case "MaxOne":
+                        FOG.Afs.OneStop = true;
+                        Flights = FOG.CreateNewList();
+                        PR.checkForAirline();
+                        break;
+                }
+                FOG.ChangeNumbers(Flights, btn);
+            });
         }
+
+        private int sliderVal;
+
+        public int SliderVal
+        {
+            get { return sliderVal; }
+            set { 
+                sliderVal = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SliderVal)));
+                MW.HourShow.Text = $"{value} hours";
+                if(value != MW.HoursRequired.Maximum)
+                {
+                    FOG.Afs.MaxTravelTime = value;
+                    Flights = FOG.CreateNewList();
+                    PR.checkForAirline();
+                    FOG.ChangeNumbers(Flights, MW.HoursRequired);
+                    FOG.Afs.MaxTravelTime = default!;
+                }
+            }
+        }
+
+
+        private int minimalTime;
+
+        public int MinimalTime
+        {
+            get { return minimalTime; }
+            set { 
+                minimalTime = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MinimalTime)));
+            }
+        }
+
+        private int maximalTime;
+
+        public int MaximalTime
+        {
+            get { return maximalTime; }
+            set
+            {
+                maximalTime = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(MaximalTime)));
+            }
+        }
+
         private int showResultsCount = 0;
 
         public int ShowResultsCount
@@ -555,6 +667,8 @@ namespace HolidayBook.ViewModels
 
         public static MainWindow MW { get; private set; } = default!;
 
+        public FlightOffersGUI FOG { get; }
+
         public ICommand addAdult { get; }
 
         public ICommand removeAdult { get; }
@@ -580,5 +694,9 @@ namespace HolidayBook.ViewModels
         public ICommand ButtonChecker { get; }
 
         public ICommand ArrOrDep { get; }
+
+        public ICommand OrderButtons { get; }
+
+        public ICommand AnyOrMaxOne { get; }
     }
 }

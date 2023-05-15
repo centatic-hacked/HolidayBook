@@ -10,7 +10,6 @@ namespace HolidayBook.Overview
 {
     public class DateCalculator
     {
-        public int MyProperty { get; set; }
         public static DateTime calcStartDate()
         {
             string curDate = DateTime.Now.ToString("dd-MM-yyyy");

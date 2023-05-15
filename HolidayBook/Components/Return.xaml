@@ -1,0 +1,270 @@
+﻿<UserControl x:Class="HolidayBook.Components.Return"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HolidayBook.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="0,5,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="27"></RowDefinition>
+            <RowDefinition Height="27"></RowDefinition>
+            <RowDefinition Height="27"></RowDefinition>
+            <RowDefinition Height="27"></RowDefinition>
+            <RowDefinition Height="27"></RowDefinition>
+            <RowDefinition Height="27"></RowDefinition>
+            <RowDefinition Height="27"></RowDefinition>
+            <RowDefinition Height="27"></RowDefinition>
+            <RowDefinition Height="27"></RowDefinition>
+            <RowDefinition Height="27"></RowDefinition>
+            <RowDefinition Height="27"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280"></ColumnDefinition>
+            <ColumnDefinition Width="50"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label HorizontalAlignment="Left" Grid.Row="0" Content="{Binding ReturnDepTxt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" FontSize="12"/>
+        <StackPanel Margin="5,0,0,0" Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+            <Border HorizontalAlignment="Left" CornerRadius="3" BorderThickness="1.2" Width="16" Height="15" BorderBrush="#8c8c8e" Background="White">
+                <CheckBox Name="ReturnDep1" Command="{Binding CheckboxDesign}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"  Width="200" BorderThickness="0">
+                    <CheckBox.Style>
+                        <Style TargetType="{x:Type CheckBox}">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                                            <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Width="15" Height="15">
+                                                <Path Stretch="Uniform" Width="15" Height="10" Fill="White" Name="eliCheck" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Visibility="Collapsed"/>
+                                            </Border>
+                                            <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"></TextBlock>
+                                        </StackPanel>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="eliCheck" Property="Visibility" Value="Visible"></Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+            </Border>
+            <Label Content="00:00 - 05:59"/>
+        </StackPanel>
+        <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding ReturnDepNr1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,0" Foreground="#8c8c8e"/>
+        <StackPanel Margin="5,0,0,0" Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+            <Border CornerRadius="3" BorderThickness="1.2" Width="16" Height="15" BorderBrush="#8c8c8e" Background="White">
+                <CheckBox Name="ReturnDep2" Command="{Binding CheckboxDesign}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Width="200" BorderThickness="0">
+                    <CheckBox.Style>
+                        <Style TargetType="{x:Type CheckBox}">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                                            <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Width="15" Height="15">
+                                                <Path Stretch="Uniform" Width="15" Height="10" Fill="White" Name="eliCheck" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Visibility="Collapsed"/>
+                                            </Border>
+                                            <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"></TextBlock>
+                                        </StackPanel>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="eliCheck" Property="Visibility" Value="Visible"></Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+            </Border>
+            <Label Content="06:00 - 11:59"/>
+        </StackPanel>
+        <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding ReturnDepNr2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,0" Foreground="#8c8c8e"/>
+        <StackPanel Margin="5,0,0,0" Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
+            <Border CornerRadius="3" BorderThickness="1.2" Width="16" Height="15" BorderBrush="#8c8c8e" Background="White">
+                <CheckBox Name="ReturnDep3" Command="{Binding CheckboxDesign}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" BorderThickness="0">
+                    <CheckBox.Style>
+                        <Style TargetType="{x:Type CheckBox}">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                                            <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Width="15" Height="15">
+                                                <Path Stretch="Uniform" Width="15" Height="10" Fill="White" Name="eliCheck" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Visibility="Collapsed"/>
+                                            </Border>
+                                            <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"></TextBlock>
+                                        </StackPanel>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="eliCheck" Property="Visibility" Value="Visible"></Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+            </Border>
+            <Label Content="12:00 - 17:59"/>
+        </StackPanel>
+        <TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding ReturnDepNr3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,0" Foreground="#8c8c8e"/>
+        <StackPanel Margin="5,0,0,0" Grid.Row="4" Grid.Column="0" Orientation="Horizontal">
+            <Border CornerRadius="3" BorderThickness="1.2" Width="16" Height="15" BorderBrush="#8c8c8e" Background="White">
+                <CheckBox Name="ReturnDep4"  Command="{Binding CheckboxDesign}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Width="200" BorderThickness="0">
+                    <CheckBox.Style>
+                        <Style TargetType="{x:Type CheckBox}">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                                            <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Width="15" Height="15">
+                                                <Path Stretch="Uniform" Width="15" Height="10" Fill="White" Name="eliCheck" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Visibility="Collapsed"/>
+                                            </Border>
+                                            <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"></TextBlock>
+                                        </StackPanel>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="eliCheck" Property="Visibility" Value="Visible"></Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+            </Border>
+            <Label Content="18:00 - 23:59"/>
+        </StackPanel>
+        <TextBlock Grid.Row="4" Foreground="#8c8c8e" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding ReturnDepNr4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,0"/>
+        <Label HorizontalAlignment="Left" Grid.Row="5" Content="{Binding ReturnArrTxt, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontWeight="Bold" FontSize="12"/>
+        <StackPanel Margin="5,0,0,0" Grid.Row="6" Grid.Column="0" Orientation="Horizontal">
+            <Border HorizontalAlignment="Left" CornerRadius="3" BorderThickness="1.2" Width="16" Height="15" BorderBrush="#8c8c8e" Background="White">
+                <CheckBox Name="ReturnArr1" Command="{Binding CheckboxDesign}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}"  Width="200" BorderThickness="0">
+                    <CheckBox.Style>
+                        <Style TargetType="{x:Type CheckBox}">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                                            <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Width="15" Height="15">
+                                                <Path Stretch="Uniform" Width="15" Height="10" Fill="White" Name="eliCheck" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Visibility="Collapsed"/>
+                                            </Border>
+                                            <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"></TextBlock>
+                                        </StackPanel>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="eliCheck" Property="Visibility" Value="Visible"></Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+            </Border>
+            <Label Content="00:00 - 05:59"/>
+        </StackPanel>
+        <TextBlock Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding ReturnArrNr1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,0" Foreground="#8c8c8e"/>
+        <StackPanel Margin="5,0,0,0" Grid.Row="7" Grid.Column="0" Orientation="Horizontal">
+            <Border CornerRadius="3" BorderThickness="1.2" Width="16" Height="15" BorderBrush="#8c8c8e" Background="White">
+                <CheckBox Name="ReturnArr2" Command="{Binding CheckboxDesign}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Width="200" BorderThickness="0">
+                    <CheckBox.Style>
+                        <Style TargetType="{x:Type CheckBox}">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                                            <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Width="15" Height="15">
+                                                <Path Stretch="Uniform" Width="15" Height="10" Fill="White" Name="eliCheck" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Visibility="Collapsed"/>
+                                            </Border>
+                                            <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"></TextBlock>
+                                        </StackPanel>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="eliCheck" Property="Visibility" Value="Visible"></Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+            </Border>
+            <Label Content="06:00 - 11:59"/>
+        </StackPanel>
+        <TextBlock Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding ReturnArrNr2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,0" Foreground="#8c8c8e"/>
+        <StackPanel Margin="5,0,0,0" Grid.Row="8" Grid.Column="0" Orientation="Horizontal">
+            <Border CornerRadius="3" BorderThickness="1.2" Width="16" Height="15" BorderBrush="#8c8c8e" Background="White">
+                <CheckBox Name="ReturnArr3" Command="{Binding CheckboxDesign}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" BorderThickness="0">
+                    <CheckBox.Style>
+                        <Style TargetType="{x:Type CheckBox}">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                                            <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Width="15" Height="15">
+                                                <Path Stretch="Uniform" Width="15" Height="10" Fill="White" Name="eliCheck" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Visibility="Collapsed"/>
+                                            </Border>
+                                            <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"></TextBlock>
+                                        </StackPanel>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="eliCheck" Property="Visibility" Value="Visible"></Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+            </Border>
+            <Label Content="12:00 - 17:59"/>
+        </StackPanel>
+        <TextBlock Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding ReturnArrNr3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,0" Foreground="#8c8c8e"/>
+        <StackPanel Margin="5,0,0,0" Grid.Row="9" Grid.Column="0" Orientation="Horizontal">
+            <Border CornerRadius="3" BorderThickness="1.2" Width="16" Height="15" BorderBrush="#8c8c8e" Background="White">
+                <CheckBox Name="ReturnArr4"  Command="{Binding CheckboxDesign}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" Width="200" BorderThickness="0">
+                    <CheckBox.Style>
+                        <Style TargetType="{x:Type CheckBox}">
+                            <Setter Property="Background" Value="White" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type CheckBox}">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" >
+                                            <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" Width="15" Height="15">
+                                                <Path Stretch="Uniform" Width="15" Height="10" Fill="White" Name="eliCheck" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Visibility="Collapsed"/>
+                                            </Border>
+                                            <TextBlock Margin="5,0,0,0"  VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"></TextBlock>
+                                        </StackPanel>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="eliCheck" Property="Visibility" Value="Visible"></Setter>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </CheckBox.Style>
+                </CheckBox>
+            </Border>
+            <Label Content="18:00 - 23:59"/>
+        </StackPanel>
+        <TextBlock Grid.Row="9" Foreground="#8c8c8e" Grid.Column="1" HorizontalAlignment="Right" Text="{Binding ReturnArrNr4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,5,0,0"/>
+    </Grid>
+</UserControl>

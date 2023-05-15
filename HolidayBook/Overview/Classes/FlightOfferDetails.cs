@@ -8,7 +8,7 @@ namespace HolidayBook.Overview.Classes
 {
     public class FlightOfferDetails
     {
-        public FlightOfferDetails(string departs_airlines, int departs_duration, string arrives_airlines, int arrives_duration, float price, string currency, List<DateTime> dep_Departures, List<DateTime> dep_Arrivals, List<DateTime> arr_Departures, List<DateTime> arr_Arrivals, int dep_Stops, int arr_Stops)
+        public FlightOfferDetails(string departs_airlines, int departs_duration, string arrives_airlines, int arrives_duration, float price, string currency, Dictionary<DateTime, string> dep_Departures, Dictionary<DateTime, string> dep_Arrivals, Dictionary<DateTime, string> arr_Departures, Dictionary<DateTime, string> arr_Arrivals, int dep_Stops, int arr_Stops)
         {
             Departs_airlines = departs_airlines;
             Departs_duration = departs_duration;
@@ -36,16 +36,17 @@ namespace HolidayBook.Overview.Classes
 
         public string Currency { get; private set; }
 
-        public List<DateTime> Dep_Departures { get; private set; }
+        public Dictionary<DateTime, string> Dep_Departures { get; private set; }
 
-        public List<DateTime> Dep_Arrivals { get; private set; }
+        public Dictionary<DateTime, string> Dep_Arrivals { get; private set; }
 
-        public List<DateTime> Arr_Departures { get; private set; }
+        public Dictionary<DateTime, string> Arr_Departures { get; private set; }
 
-        public List<DateTime> Arr_Arrivals { get; private set; }
+        public Dictionary<DateTime, string> Arr_Arrivals { get; private set; }
 
         public int Dep_Stops { get; private set; }
 
         public int Arr_Stops { get; private set; }
+
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
+using HolidayBook.ViewModels;
 
 namespace HolidayBook.Overview.Classes
 {
@@ -56,6 +57,17 @@ namespace HolidayBook.Overview.Classes
             }
         }
 
+        public void checkForAirline()
+        {
+            List<ExcludeAirlinesList> ls = new List<ExcludeAirlinesList>();
+            foreach (string airline in Airlines.Keys)
+            {
+                ls.Add(new ExcludeAirlinesList(airline, Airlines[airline], this.MW));
+            }
+            MW.AirlinesList = ls;
+        }
+
+
         private void createListOfAirlines(string name)
         {
             if (!Airlines.ContainsKey(name))
@@ -76,7 +88,7 @@ namespace HolidayBook.Overview.Classes
 
         private int lowestHours()
         {
-            return Math.Max(Flights.Min(flightDat => flightDat.Departs_duration), Flights.Min(flightDat => flightDat.Arrives_duration));
+            return Math.Min(Flights.Min(flightDat => flightDat.Departs_duration), Flights.Min(flightDat => flightDat.Arrives_duration));
         }
 
         private int highestHours()
@@ -110,8 +122,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (0 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 6) ? true : false
+                                 TrueData = (0 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 6) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtDepartureAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
                 case 1:
@@ -124,8 +137,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (6 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 12) ? true : false
+                                 TrueData = (6 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 12) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtDepartureAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
                 case 2:
@@ -138,8 +152,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (12 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 18) ? true : false
+                                 TrueData = (12 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 18) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtDepartureAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
                 case 3:
@@ -152,8 +167,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (18 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 24) ? true : false
+                                 TrueData = (18 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 24) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtDepartureAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
             }
@@ -180,8 +196,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (0 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 6) ? true : false
+                                 TrueData = (0 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 6) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtDepartureAirport.Content.ToString().Substring(0,3)
                              select Flight).ToList();
                     return query;
                 case 1:
@@ -194,8 +211,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (6 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 12) ? true : false
+                                 TrueData = (6 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 12) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtDepartureAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
                 case 2:
@@ -208,8 +226,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (12 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 18) ? true : false
+                                 TrueData = (12 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 18) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtDepartureAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
                 case 3:
@@ -222,8 +241,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (18 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 24) ? true : false
+                                 TrueData = (18 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 24) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtDepartureAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
             }
@@ -250,8 +270,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (0 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 6) ? true : false
+                                 TrueData = (0 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 6) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtArrivalAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
                 case 1:
@@ -264,8 +285,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (6 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 12) ? true : false
+                                 TrueData = (6 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 12) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtArrivalAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
                 case 2:
@@ -278,8 +300,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (12 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 18) ? true : false
+                                 TrueData = (12 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 18) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtArrivalAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
                 case 3:
@@ -292,8 +315,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (18 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 24) ? true : false
+                                 TrueData = (18 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 24) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtArrivalAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
             }
@@ -320,8 +344,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (0 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 6) ? true : false
+                                 TrueData = (0 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 6) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtArrivalAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
                 case 1:
@@ -334,8 +359,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (6 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 12) ? true : false
+                                 TrueData = (6 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 12) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtArrivalAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
                 case 2:
@@ -348,8 +374,9 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (12 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 18) ? true : false
+                                 TrueData = (12 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 18) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtArrivalAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
                 case 3:
@@ -362,12 +389,98 @@ namespace HolidayBook.Overview.Classes
                              equals new
                              {
                                  Id = date.FlightOfferNavigationId,
-                                 TrueData = (18 < int.Parse(date.Dt.ToString("H")) && int.Parse(date.Dt.ToString("H")) < 24) ? true : false
+                                 TrueData = (18 < int.Parse(date.Dt.ToString("HH")) && int.Parse(date.Dt.ToString("HH")) < 24) ? true : false
                              }
+                             where date.Airport == MainViewModel.MW.txtArrivalAirport.Content.ToString().Substring(0, 3)
                              select Flight).ToList();
                     return query;
             }
             return default!;
         }
+
+        public string GetAirportAndDateOutboundDep(FlightOffersDB flight, IEnumerable<FlightOffersDB> fls)
+        {
+            string format = "";
+            var data = (from Flight in fls
+                        join date in DB.FlightsToDep on new
+                        {
+                            flight.Id
+                        }
+                        equals new
+                        {
+                            Id = date.FlightOfferNavigationId
+                        }
+                        where date.Airport == MainViewModel.MW.txtDepartureAirport.Content.ToString().Substring(0, 3)
+                        select new {date.Dt, date.Airport}).ToList();
+            foreach(var item in data)
+            {
+                format = $"{item.Dt.ToString("HH:mm")} {item.Airport}•{item.Dt.ToString("dd MMM")}";
+            }
+            return format;
+        }
+
+        public string GetAirportAndDateOutboundArr(FlightOffersDB flight, IEnumerable<FlightOffersDB> fls)
+        {
+            string format = "";
+            var data = (from Flight in fls
+                        join date in DB.FlightsToArr on new
+                        {
+                            flight.Id
+                        }
+                        equals new
+                        {
+                            Id = date.FlightOfferNavigationId
+                        }
+                        where date.Airport == MainViewModel.MW.txtArrivalAirport.Content.ToString().Substring(0, 3)
+                        select new { date.Dt, date.Airport }).ToList();
+            foreach (var item in data)
+            {
+                format = $"{item.Dt.ToString("HH:mm")} {item.Airport}•{item.Dt.ToString("dd MMM")}";
+            }
+            return format;
+        }
+
+        public string GetAirportAndDateReturnDep(FlightOffersDB flight, IEnumerable<FlightOffersDB> fls)
+        {
+            string format = "";
+            var data = (from Flight in fls
+                        join date in DB.FlightsBackDep on new
+                        {
+                            flight.Id
+                        }
+                        equals new
+                        {
+                            Id = date.FlightOfferNavigationId
+                        }
+                        where date.Airport == MainViewModel.MW.txtArrivalAirport.Content.ToString().Substring(0, 3)
+                        select new { date.Dt, date.Airport }).ToList();
+            foreach (var item in data)
+            {
+                format = $"{item.Dt.ToString("HH:mm")} {item.Airport}•{item.Dt.ToString("dd MMM")}";
+            }
+            return format;
+        }
+
+        public string GetAirportAndDateReturnArr(FlightOffersDB flight, IEnumerable<FlightOffersDB> fls)
+        {
+            string format = "";
+            var data = (from Flight in fls
+                        join date in DB.FlightsBackArr on new
+                        {
+                            flight.Id
+                        }
+                        equals new
+                        {
+                            Id = date.FlightOfferNavigationId
+                        }
+                        where date.Airport == MainViewModel.MW.txtDepartureAirport.Content.ToString().Substring(0, 3)
+                        select new { date.Dt, date.Airport }).ToList();
+            foreach (var item in data)
+            {
+                format = $"{item.Dt.ToString("HH:mm")} {item.Airport}•{item.Dt.ToString("dd MMM")}";
+            }
+            return format;
+        }
+
     }
 }

@@ -10,19 +10,14 @@ namespace Model.Model
     {
         protected FlightOffersDB() { }
 
-        public FlightOffersDB(string departs_airlines, int departs_duration, string arrives_airlines, float price, string currency, 
-            //List<DateTime> dep_Departures, List<DateTime> dep_Arrivals, List<DateTime> arr_Departures, List<DateTime> arr_Arrivals,
-            int dep_Stops, int arr_Stops)
+        public FlightOffersDB(string departs_airlines, int departs_duration, string arrives_airlines, int arrives_duration, float price, string currency, int dep_Stops, int arr_Stops)
         {
             Departs_airlines = departs_airlines;
             Departs_duration = departs_duration;
             Arrives_airlines = arrives_airlines;
+            Arrives_duration = arrives_duration;
             Price = price;
             Currency = currency;
-            //flToDep = dep_Departures;
-            //flToArr = dep_Arrivals;
-            //flBackDep = arr_Departures;
-            //flBackArr = arr_Arrivals;
             Dep_Stops = dep_Stops;
             Arr_Stops = arr_Stops;
         }

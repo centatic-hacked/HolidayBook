@@ -81,12 +81,12 @@ namespace HolidayBook.Overview
                     var airlines_full = dictionaries["carriers"];
                     int departs_first = 0;
                     int departs_breaks = 0;
-                    List<DateTime> dep_Departures = new List<DateTime>();
-                    List<DateTime> dep_Arrivals = new List<DateTime>();
+                    Dictionary<DateTime, string> dep_Departures = new Dictionary<DateTime, string>();
+                    Dictionary<DateTime, string> dep_Arrivals = new Dictionary<DateTime, string>();
                     for (int i = 0; i < offers.itineraries[0].segments.Count(); i++)
                     {
-                        dep_Departures.Add(offers.itineraries[0].segments[i].departure.at);
-                        dep_Arrivals.Add(offers.itineraries[0].segments[i].arrival.at);
+                        dep_Departures.Add(offers.itineraries[0].segments[i].departure.at, offers.itineraries[0].segments[i].departure.iataCode);
+                        dep_Arrivals.Add(offers.itineraries[0].segments[i].arrival.at, offers.itineraries[0].segments[i].arrival.iataCode);
                         if (!departs_airlines.Contains(airlines_full[offers.itineraries[0].segments[i].carrierCode]))
                         {
                             departs_airlines += (departs_first == 0) ? airlines_full[offers.itineraries[0].segments[i].carrierCode] : ", " + airlines_full[offers.itineraries[0].segments[i].carrierCode];
@@ -96,12 +96,12 @@ namespace HolidayBook.Overview
                     }
                     int arrives_first = 0;
                     int arrives_breaks = 0;
-                    List<DateTime> arr_Departures = new List<DateTime>();
-                    List<DateTime> arr_Arrivals = new List<DateTime>();
+                    Dictionary<DateTime, string> arr_Departures = new Dictionary<DateTime, string>();
+                    Dictionary<DateTime, string> arr_Arrivals = new Dictionary<DateTime, string>();
                     for (int i = 0; i < offers.itineraries[1].segments.Count(); i++)
                     {
-                        arr_Departures.Add(offers.itineraries[1].segments[i].departure.at);
-                        arr_Arrivals.Add(offers.itineraries[1].segments[i].arrival.at);
+                        arr_Departures.Add(offers.itineraries[1].segments[i].departure.at, offers.itineraries[1].segments[i].departure.iataCode);
+                        arr_Arrivals.Add(offers.itineraries[1].segments[i].arrival.at, offers.itineraries[1].segments[i].arrival.iataCode);
                         if (!arrives_airlines.Contains(airlines_full[offers.itineraries[1].segments[i].carrierCode]))
                         {
                             arrives_airlines += (arrives_first == 0) ? airlines_full[offers.itineraries[1].segments[i].carrierCode] : ", " + airlines_full[offers.itineraries[1].segments[i].carrierCode];
@@ -124,7 +124,8 @@ namespace HolidayBook.Overview
                     string currency = db.Currencies.SingleOrDefault(c => c.Currency_Code == offers.price.currency).Currency_Symbol;
 
                     //.WriteLine($"Departs Airlines:{departs_airlines} Departs Duration:{dep_duration} Arrives Airlines:{arrives_airlines} Arrives_Duration:{arr_duration} Price:{offers.price.grandTotal}{currency}");
-                    flightdata.Add(new FlightOfferDetails(departs_airlines, dep_duration, arrives_airlines, arr_duration, tot_price, currency, dep_Departures, dep_Arrivals, arr_Departures, arr_Arrivals, departs_breaks, arrives_breaks));
+                    flightdata.Add(new FlightOfferDetails(departs_airlines, dep_duration, arrives_airlines, arr_duration, tot_price, currency, dep_Departures, dep_Arrivals, arr_Departures, arr_Arrivals, 
+                        departs_breaks, arrives_breaks));
                     //Console.WriteLine(arrives_airlines);
                 }
                 return flightdata;
@@ -171,31 +172,35 @@ namespace HolidayBook.Overview
             return url ;
         }
 
-        public static List<FlightOffersDB> addToDb(List<FlightOfferDetails> flights, HolidayBookContext db) 
+        public async static Task<List<FlightOffersDB>> addToDb(List<FlightOfferDetails> flights, HolidayBookContext db) 
         {
+            db.Flights.ExecuteDelete();
+            db.FlightsBackArr.ExecuteDelete();
+            db.FlightsBackDep.ExecuteDelete();
+            db.FlightsToArr.ExecuteDelete();
+            db.FlightsToDep.ExecuteDelete();
+            await db.SaveChangesAsync();
             List<FlightOffersDB> flightsDB = new List<FlightOffersDB>();
             foreach(FlightOfferDetails flight in flights) {
-                FlightOffersDB flightInDB = new(flight.Departs_airlines, flight.Departs_duration, flight.Arrives_airlines, flight.Price, flight.Currency, 
-                    //flight.Dep_Departures, flight.Dep_Arrivals, flight.Arr_Departures, flight.Arr_Arrivals,
-                    flight.Dep_Stops, flight.Arr_Stops);
-                foreach(DateTime fl in flight.Dep_Departures)
+                FlightOffersDB flightInDB = new(flight.Departs_airlines, flight.Departs_duration, flight.Arrives_airlines, flight.Arrives_duration, flight.Price, flight.Currency, flight.Dep_Stops, flight.Arr_Stops);
+                foreach(DateTime fl in flight.Dep_Departures.Keys)
                 {
-                    FlightToDep flDB = new FlightToDep(fl, flightInDB);
+                    FlightToDep flDB = new FlightToDep(fl, flightInDB, flight.Dep_Departures[fl]);
                     db.AddFlightDates(flDB);
                 }
-                foreach (DateTime fl in flight.Dep_Arrivals)
+                foreach (DateTime fl in flight.Dep_Arrivals.Keys)
                 {
-                    FlightToArr flDB = new FlightToArr(fl, flightInDB);
+                    FlightToArr flDB = new FlightToArr(fl, flightInDB, flight.Dep_Arrivals[fl]);
                     db.AddFlightDates(flDB);
                 }
-                foreach (DateTime fl in flight.Arr_Departures)
+                foreach (DateTime fl in flight.Arr_Departures.Keys)
                 {
-                    FlightBackDep flDB = new FlightBackDep(fl, flightInDB);
+                    FlightBackDep flDB = new FlightBackDep(fl, flightInDB, flight.Arr_Departures[fl]);
                     db.AddFlightDates(flDB);
                 }
-                foreach (DateTime fl in flight.Arr_Arrivals)
+                foreach (DateTime fl in flight.Arr_Arrivals.Keys)
                 {
-                    FlightBackArr flDB = new FlightBackArr(fl, flightInDB);
+                    FlightBackArr flDB = new FlightBackArr(fl, flightInDB, flight.Arr_Arrivals[fl]);
                     db.AddFlightDates(flDB);
                 }
 

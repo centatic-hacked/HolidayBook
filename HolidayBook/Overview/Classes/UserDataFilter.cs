@@ -18,12 +18,7 @@ namespace HolidayBook.Overview.Classes
         {
             MW = mw;
             DB = db;
-            Flights = DB.Flights.ToList();
-            LowestPrice = Flights.Min(flightDat => flightDat.Price);
-            MinimalTime = lowestHours();
-            MaximalTime = highestHours();
-            AmountOfOneFlights = avalFlights();
-            calculateAirlinesWithAvalaibility();
+            MainViewModel.PR = this;
         }
 
         public MainViewModel MW { get; private set; }
@@ -36,23 +31,21 @@ namespace HolidayBook.Overview.Classes
         public List<FlightOffersDB> Flights
         {
             get { return flights; }
-            set { 
-                flights = value; 
-                LowestPrice = Flights.Min(flightDat => flightDat.Price);
-                OneLowestPrice = calculateLowesPriceFromOne();
-                MinimalTime = lowestHours();
-                MaximalTime = highestHours();
-                AmountOfOneFlights = avalFlights();
-                calculateAirlinesWithAvalaibility();
-                MainViewModel.PR = this;
-                MW.MinimalPriceAll = "";
-                MW.MinimalPriceMax1 = "";
-                List<ExcludeAirlinesList> ls = new List<ExcludeAirlinesList>();
-                foreach(string airline in Airlines.Keys)
+            set
+            {
+                flights = value;
+                Airlines.Clear();
+                if (flights.Count() != 0)
                 {
-                   ls.Add(new ExcludeAirlinesList(airline, Airlines[airline]));
+                    LowestPrice = Flights.Min(flightDat => flightDat.Price);
+                    OneLowestPrice = calculateLowesPriceFromOne();
+                    MinimalTime = lowestHours();
+                    MaximalTime = highestHours();
+                    AmountOfOneFlights = avalFlights();
+                    calculateAirlinesWithAvalaibility();
+                    MW.MinimalPriceAll = "";
+                    MW.MinimalPriceMax1 = "";
                 }
-                MW.AirlinesList = ls;
             }
         }
 
@@ -77,35 +70,6 @@ namespace HolidayBook.Overview.Classes
 
         public int arr_wishedDArr { get; private set; }
 
-        public IDictionary<int, int> startTimes {get; private set; }
-
-        public void AllFlights(bool option)
-        {
-            if(option == true)
-            {
-                var allFlights = DB.Flights.ToList();
-                IEnumerable<FlightOffersDB> newList;
-                newList = allFlights.Where(flightDat => Airlines.ContainsKey(flightDat.Arrives_airlines) 
-                && Airlines.ContainsKey(flightDat.Departs_airlines) &&  flightDat.Arrives_duration < MaximalTime && flightDat.Departs_duration < MaximalTime);
-                for(int i = 0; i < startTimes.Count; i++)
-                {
-                    switch(i)
-                    {
-                        case 0:
-                              newList = getNumberOfFlightsFromArrInTime(startTimes[0], newList);
-                            break;
-                        case 1:
-                            newList = getNumberOfFlightsToArrInTime(startTimes[1], newList);
-                            break;
-                        case 2:
-                            newList = getNumberOfFlightsFromDepInTime(startTimes[2], newList);
-                            break;
-                        case 3:
-                            newList = getNumberOfFlightsToDepInTime(startTimes[3], newList);
-                            break;
-                    }
-                }
-            }
-        }
+        public IDictionary<int, int> startTimes { get; private set; }
     }
 }

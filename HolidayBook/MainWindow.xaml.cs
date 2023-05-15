@@ -26,6 +26,7 @@ using System.Windows.Automation.Provider;
 using System.Globalization;
 using HolidayBook.ViewModels;
 using HolidayBook.Overview.Classes;
+using HolidayBook.Components;
 
 namespace HolidayBook
 {
@@ -37,6 +38,7 @@ namespace HolidayBook
         public MainWindow()
         {
             InitializeComponent();
+            this.Outbound_Return.Content = new Outbound();
             this.DataContext = new MainViewModel(this);
             calendar.BlackoutDates.AddDatesInPast();
             calendar.DisplayDate = DateTime.Now;
